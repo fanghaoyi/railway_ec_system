@@ -1,14 +1,193 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-	<meta charset="UTF-8">
-	<title>Title</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>医护系统登录</title>
+	<link rel="stylesheet" href="/common/CSS/common.css"  />
+	<link rel="stylesheet" href="/common/Element/element-ui/lib/theme-chalk/index.css">
 </head>
+<style>
+	body{
+		height: 100%;
+		background-image: url("/common/IMG/login_banner_ele.png");
+		background-repeat: no-repeat;
+	}
+
+	*{
+		padding: 0px;
+		margin: 0px;
+	}
+
+	.userForm{
+		width: 365px;
+		height: 320px;
+		background: rgba(255,255,255,1);
+		border-radius: 3px;
+		margin: 145px 329px;
+		float: right;
+		padding: 40px 30px;
+	}
+
+	.loginSpan{
+		width:78px;
+		height:18px;
+		font-size:18px;
+		font-family:MicrosoftYaHei;
+		font-weight:400;
+		color:rgba(51,51,51,1);
+		display: inline-block;
+		padding-bottom: 50px;
+	}
+
+	.userForm .el-input__inner {
+		width:365px;
+		height:50px;
+		background:rgba(248,248,248,0.8);
+		border:1px solid rgba(221, 221, 221, 1);
+		opacity:0.8;
+		border-radius:3px;
+	}
+
+	.userForm .el-form-item {
+		margin-bottom: 20px;
+	}
+
+	.userForm .el-button{
+		width: 365px;
+		height: 50px;
+		background: rgba(147,162,243,1);
+		border-radius: 3px;
+		font-size:18px;
+		font-family:MicrosoftYaHei;
+		font-weight:400;
+		color:rgba(255,255,255,1);
+	}
+</style>
 <body>
-<br>
-	<div>
+<div  id="app">
+
+    <div style="    font-size: 2.5rem;font-weight: bold;color: rgb(255, 255, 255);position: fixed;top: 11%;left: 15%;">东莞市互联网+护理服务管理平台</div>
+    <div class ="userForm" v-loading ="loading">
+        <span class="loginSpan">账号登录</span>
+        <el-form ref="form" :model="loginForm"  >
+             <el-form-item style="margin-bottom: 34px" >
+                <el-input   v-model="loginForm.logonName"  placeholder="请输入用户名"  ></el-input>
+            </el-form-item>
+            <el-form-item style="margin-bottom: 34px" >
+                <el-input  type="password" v-model="loginForm.password" autocomplete="off" placeholder="请输入密码"  ></el-input>
+            </el-form-item>
+            <el-form-item >
+                <el-button type="primary" id="login" @click="login" style="width: 365px;height: 50px">登录</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
+    <div style="position: fixed;bottom: 5%;width: 100%;text-align: center;">
+        <div style="font-size:16px;color:#333333;margin-bottom: 10px;">
+           东莞市卫生健康局
+        </div>
+        <div style="font-size:14px;color:#969696;">技术支持：深圳星医科技有限公司</div>
+    </div>
+</div>
+<!-- 先引入 公共库 -->
+<script src="/common/Vue/vue.min.js"></script>
+<script src="/common/Element/element-ui.js"></script>
+<script src="/common/jQuery/jquery-3.3.1.min.js"></script>
+<script src="/common/JS/common.js"></script>
+<script src="/common/MD5/md5.js" ></script>
+<script>
+	var storage = window.sessionStorage;
+
+	var loginvue = new Vue({
+		el: '#app',
+		data: {
+			loading:false,
+			username: "",
+			password: "",
+			loginForm:{
+				orgId:"",
+				deptId:"",
+				logonName:"",
+				password:""
+			}
+		},
+		methods: {
+
+			login: function(event) {
+				var thisVue = this;
+				if(isNull(thisVue.loginForm.logonName)) {
+					this.$alert('用户名不能为空', '', {});
+					return;
+				}
+
+				if(isNull(thisVue.loginForm.password)) {
+					this.$alert('密码不能为空', '', {});
+					return;
+				}
+				this.loading = true;
+				$.ajax({
+					url: '/user/login',
+					type: 'post',
+					dataType:'json',
+					data:{
+						'logonName':thisVue.loginForm.logonName,
+						'password':thisVue.loginForm.password
+					},
+					success: function(data) {
+						thisVue.loading = false;
+						if(data && data.code == 1) {
+							storage.user = JSON.stringify(data.content);
+							window.location.href = "/page/main.html";
+						} else {
+							thisVue.$alert(data.message);
+						}
+					}
+				});
+
+			}
+		},
+		mounted:function () {
+			this.$nextTick(function () {
+				var orgId = getCookie('orgId');
+				/*     if(orgId!=null && orgId.length>0){
+						 this.orgRemote(getCookie('orgName'),orgId);
+					 }*/
+			})
+		}
+	});
+
+	document.onkeydown = function (event) {
+		var e = event || window.event;
+		if (e && e.keyCode == 13) { //回车键的键值为13
+			$("#login").click(); //调用登录按钮的登录事件
+		}
+	};
 
 
-	</div>
+	function isNull(str) {
+		if(str==null || str == '' || str=='null' || str=='NULL')return true;
+		return false;
+	}
+
+
+	function setCookie(cname,cvalue,exdays){
+		var d = new Date();
+		d.setTime(d.getTime()+(exdays*24*60*60*1000));
+		var expires = "expires="+d.toGMTString();
+		document.cookie = escape(cname)+"="+escape(cvalue)+"; "+expires;
+	}
+	function getCookie(cname){
+		var name = cname + "=";
+		var ca = document.cookie.split(';');
+		for(var i=0; i<ca.length; i++) {
+			var c = ca[i].trim();
+			if (c.indexOf(name)==0){
+				var aa = c.substring(name.length,c.length);
+				return unescape(aa);
+			}
+		}
+		return "";
+	}
+</script>
 </body>
 </html>

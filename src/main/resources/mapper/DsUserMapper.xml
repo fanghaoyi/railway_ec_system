@@ -282,9 +282,68 @@
   </update>
 
     <select id="selectUsers" resultType="com.railway.railwayecsystem.model.DsUser">
-    SELECT
-     *
-    FROM
-        ds_user
+    SELECT * FROM ds_user
   </select>
+
+    <select id="find" resultType="com.railway.railwayecsystem.model.DsUser">
+        SELECT
+            <include refid="Base_Column_List" />
+        FROM ds_user
+        <where >
+            <if test="id != null" >
+                AND id = #{id,jdbcType=DECIMAL}
+            </if>
+            <if test="logonName != null" >
+                AND logon_name = #{logonName,jdbcType=VARCHAR}
+            </if>
+            <if test="effDate != null" >
+                AND eff_date = #{effDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="expDate != null" >
+                AND exp_date = #{expDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="lastName != null" >
+                AND last_name = #{lastName,jdbcType=VARCHAR}
+            </if>
+            <if test="firstName != null" >
+                AND first_name = #{firstName,jdbcType=VARCHAR}
+            </if>
+            <if test="accountStatus != null" >
+                AND account_status = #{accountStatus,jdbcType=DECIMAL}
+            </if>
+            <if test="sex != null" >
+                AND sex = #{sex,jdbcType=DECIMAL}
+            </if>
+            <if test="phone != null" >
+                AND phone = #{phone,jdbcType=VARCHAR}
+            </if>
+            <if test="email != null" >
+                AND email = #{email,jdbcType=VARCHAR}
+            </if>
+            <if test="lstLogonDate != null" >
+                AND lst_logon_date = #{lstLogonDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="pwdChangeDate != null" >
+                AND pwd_change_date = #{pwdChangeDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="password != null" >
+                AND password = #{password,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null" >
+                AND status = #{status,jdbcType=VARCHAR}
+            </if>
+            <if test="createDate != null" >
+                AND create_date = #{createDate,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null" >
+                AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserid != null" >
+                AND create_userid = #{createUserid,jdbcType=DECIMAL}
+            </if>
+            <if test="accountType != null" >
+                AND account_type = #{accountType,jdbcType=DECIMAL}
+            </if>
+        </where>
+    </select>
 </mapper>

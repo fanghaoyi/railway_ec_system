@@ -56,4 +56,6 @@ public interface DsUserMapper {
     int updateByPrimaryKey(DsUser record);
 
 	List<DsUser> selectUsers();
+
+	List<DsUser> find(DsUser dsUser);
 }

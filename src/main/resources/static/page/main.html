@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="/static/common/CSS/common.css"  />
+	<link rel="stylesheet" href="/static/common/Element/element-ui/lib/theme-chalk/index.css">
+</head>
+<style>
+	/*主页样式*/
+	*{
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.el-header{
+		padding: 0px;
+	}
+
+
+	#content_iframe{
+		border:none;
+		height: 100%;
+		width: 100%;
+		display:block;
+	}
+
+
+	.nav_separ{
+		float: left;
+		width: 50%;
+	}
+	.real_ico{
+		background: url(/img/menu.png);
+		width: 20px;
+		height: 20px;
+		float: left;
+		margin: 15px 20px;
+		cursor: pointer;
+	}
+
+
+	.el-breadcrumb {
+		font-size:16px;
+		font-family:MicrosoftYaHei;
+		font-weight:400;
+		color:#93A2F3;
+		line-height:50px;
+	}
+
+	.el-breadcrumb__inner{
+		color:#93A2F3;
+	}
+
+	.el-breadcrumb__item:last-child .el-breadcrumb__inner{
+		color:#93A2F3;
+	}
+
+	.user_nav{
+		float: right;
+		/* padding: 12.5px 20px;
+		 color: #5c6371;
+		 font-family: "Microsoft YaHei";
+		 font-size: 16px;
+		 line-height: 23px;*/
+
+		font-size:16px;
+		font-family:MicrosoftYaHeiLight;
+		font-weight:300;
+		color:rgba(92,99,113,1);
+		line-height:50px;
+
+		background:linear-gradient(86deg,rgba(142,84,233,1) 0%, rgba(71,118,230,1) 100%);
+		-webkit-background-clip:text;
+		-webkit-text-fill-color:transparent;
+	}
+
+
+	.exit_btn {
+		width: 76px;
+		margin-left: 20px;
+		background-color: #ecf0f5;
+		border-radius: 4px;
+		cursor:pointer;
+	}
+
+	.exit_btn:hover {
+		background-color: #409eff;
+		color:#ffff;
+	}
+
+	.user_ico{
+		background: url("/img/user.png");
+		height: 20px;
+		width: 20px;
+		margin:15px 6px 15px 16px;
+	}
+
+	.exit_ico{
+		background: url("/img/exit.png");
+		height: 20px;
+		width: 20px;
+		margin:15px 30px 15px 6px;
+		cursor:pointer;
+	}
+
+
+	.user_nav span,.user_nav div{
+		float: right;
+	}
+
+	.flag_icon {
+		/* width: 1px; */
+		width: 1px;
+		height: 32px;
+		background: rgba(237,238,238,1);
+		margin: 9px 10px;
+	}
+
+	/*-------------------------菜单-------------------------*/
+
+	#emenu,.el-menu{
+		background:#3B4653;
+	}
+
+	.el-menu {
+		border-right: solid 1px #3B4653;
+	}
+
+	.logo_span{
+		height: 63px;
+		border-bottom: 1px solid #323C48;
+	}
+
+	.logoImg{
+		margin: 17px 0 0 22px;
+	}
+
+	.el-submenu__title span{
+		font-size:14px;
+		font-family:MicrosoftYaHei;
+		font-weight:400;
+		color:rgba(255,255,255,1);
+		line-height:9px;
+	}
+
+	.el-submenu .el-menu-item {
+		height: 50px;
+		line-height: 50px;
+		padding: 0 45px;
+		min-width: 200px;
+		background-color: #323C48;
+
+		font-size:12px;
+		font-family:MicrosoftYaHei;
+		font-weight:400;
+		color:rgba(255,255,255,1);
+	}
+
+
+	.is-opened .el-submenu__title {
+		background-color: #323C48;
+		border-right: 5px solid rgb(103, 103, 231);
+		border-bottom:1px solid #3B4653;
+	}
+
+	.el-submenu.is-active .el-submenu__title {
+		border-bottom:1px solid #3B4653;
+	}
+
+	.el-menu-item.is-active {
+		background:#2a3644;
+	}
+
+	.el-submenu__title:hover {
+		background-color: #323C48;
+	}
+
+	.el-menu-item:hover{
+		background:#2a3644;
+	}
+	/*li.el-submenu.is-opened{
+		background-color:#f6f7fb;
+	}
+
+	.is-opened .el-menu {
+		background-color: #f6f7fb;
+	}
+
+	.el-menu-item.is-active {
+		color: #409EFF;
+		background:#535F6E;
+	}
+
+	.el-menu-item:focus, .el-menu-item:hover {
+		outline: 0;
+		background-color: #dde7fe;
+	}*/
+
+</style>
+<body >
+<div id="layout">
+    <el-container>
+        <el-aside style="background: #3B4653;width:auto" >
+            <div id='emenu' style="width:200px;">
+                <div style="padding: 0.5rem 0rem;text-align: center;">
+                    <img src="/img/hulilogo.png" />
+                </div>
+                <!-- --------------------------左侧菜单------------------------------ -->
+                <el-menu   :default-active="11"   class="el-menu-vertical" @select="menuSelect"   >
+                    <el-submenu v-for="item in MenuOption" :index="item.index"  >
+                        <template slot="title">
+                            <span>{{item.title}}</span>
+                        </template>
+                        <el-menu-item v-for="sub in item.subMenu" :index="sub.index"  >{{sub.title}}</el-menu-item>
+                    </el-submenu>
+                </el-menu>
+                <!-- --------------------------左侧菜单结束------------------------------ -->
+            </div>
+        </el-aside>
+        <el-container>
+            <el-header style="height:50px;">
+                <div class="nav_separ">
+                    <div @click="CollapseChange" class="real_ico"></div>
+                    <el-breadcrumb separator="/">
+                        <el-breadcrumb-item v-for="item in breadcrumbArr">{{item.title}}</el-breadcrumb-item>
+                    </el-breadcrumb>
+                </div>
+                <div class="user_nav">
+                    <div class="exit_ico" @click="quit" ></div>
+                    <div class="flag_icon"></div>
+                    <div class="user_ico"></div>
+                    <span>{{doctorName}}</span>
+                    <span style="margin-right: 10px">Hi~</span>
+                    <div class="flag_icon"></div>
+                </div>
+            </el-header>
+            <el-main style="padding: 0px">
+                <div id="el-main-content" style="padding: 0px">
+                    <iframe id="content_iframe" :src="contentUrl"></iframe>
+                </div>
+            </el-main>
+        </el-container>
+    </el-container>
+</div>
+</body>
+<!-- 先引入 公共库 -->
+<script src="/static/common/Vue/vue.min.js"></script>
+<script src="/static/common/Element/element-ui.js"></script>
+<script src="/static/common/jQuery/jquery-3.3.1.min.js"></script>
+<script src="/static/common/JS/common.js"></script>
+<script>
+    var storage = window.sessionStorage;
+    /*获取URL参数*/
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null) return unescape(r[2]);
+        return null;
+    }
+
+    function b64DecodeUnicode(str) {
+        return decodeURIComponent(atob(str).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+    }
+
+    var ticket = getQueryString('ticket');
+    if(ticket!=null && ticket!=''){
+        //解析
+        var userId = b64DecodeUnicode(ticket);
+        // var user=userId.split("|");
+        // storage.setItem('user','{"id":"'+user[0]+'"}');
+        // storage.setItem('loginName',user[1]);
+
+        /*查询用户信息*/
+        $.ajax({
+            url: '/hoffice/portal/PatientSearch.do?method=GetUser',
+            type: 'post',
+            async: false,
+            data:{
+                userId:userId
+            },
+            success: function(response) {
+                if(response && response.code!=-1){
+                    storage.setItem("user",JSON.stringify(response.data));
+                }
+            },
+            dataType: 'json'
+        });
+    }
+
+
+    var loadCatch = getQueryString("loadCatch");
+
+    if(!storage['preUrl']){
+        loadCatch = false;
+    }
+
+    var user = eval("("+storage.user+")");
+
+    var appData = {
+        isCollapse:false,
+        doctorName:user.loginName,
+        lastName:user.lastName,
+        contentUrl:'',//loadCatch ?storage.preUrl:'/hoffice/document/doc/documentSearch.html',
+        breadcrumbArr:[{title:'互联网+护理服务管理平台'}],
+        MenuOption:[]
+    };
+
+    var appMethod = {
+        menuSelect:function(index,path){
+            this.breadcrumbArr = [{title:'互联网+护理服务管理平台'}];
+            var query = Date.now();
+            var nowOption = this.MenuOption;
+            for(var key in path){
+                var item = path[key];
+                for(var menuKey in nowOption){
+                    var menuItem = nowOption[menuKey];
+                    for (var i = 0; i < menuItem.subMenu.length; i++) {
+                    	menuItem.subMenu[i].url += "&tagrandom=" + query;
+                    }
+                    if(menuItem.index==item){
+                        this.contentUrl="/hoffice"+menuItem.url;
+                        this.breadcrumbArr.push(menuItem);
+
+                        nowOption = menuItem.subMenu;
+                        break;
+                    }
+                }
+            }
+        },
+        toHome:function(){
+            this.contentUrl='/hoffice/portal/patient/homePage.html';
+        },
+        /*菜单伸缩*/
+        CollapseChange:function(){
+            this.isCollapse=!this.isCollapse;
+            var width = '200px';
+            if(this.isCollapse){
+                width='0px';
+            }
+            $("#emenu").animate({
+                width:width
+            });
+
+        },
+        /*退出登录*/
+        quit:function(){
+            storage.user = null;
+            storage.loginName = null;
+            window.location.href = "/hoffice/nurseservice/nurseLogin.do?method=logout";
+        }
+    };
+    var Option = {
+        el:'#layout',
+        data:appData,
+        methods:appMethod,
+        mounted:function(){
+            var thisVue = this;
+            /*加载菜单*/
+            $.ajax({
+                url: '/hoffice/nurseservice/nurseLogin.do?method=getFunctionMenu',
+                type: 'post',
+                dataType:'json',
+                success: function(data) {
+                    if(data && data.code == 0) {
+                        thisVue.MenuOption = data.content;
+   
+                        if(data.content.length>0 && data.content[0].subMenu.length>0){
+                            thisVue.contentUrl = "/hoffice"+data.content[0].subMenu[0].url;
+                            thisVue.breadcrumbArr.push(data.content[0]);
+                            thisVue.breadcrumbArr.push(data.content[0].subMenu[0]);
+                        }
+                    } else {
+                        thisVue.$message.error(data.message);
+                    }
+                }
+            });
+        }
+    }
+    var lay = new Vue(Option);
+
+    /*高度自适应*/
+    var autoFix = function(){
+        var h=window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        // document.getElementById("emenu").style.height = h+"px";
+        document.getElementById("el-main-content").style.height = h-50+"px";
+    }
+
+    window.onresize = autoFix;
+    window.onload = autoFix;
+</script>
+</html>

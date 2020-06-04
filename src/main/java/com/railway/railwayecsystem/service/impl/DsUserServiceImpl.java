@@ -41,4 +41,9 @@ public class DsUserServiceImpl implements DsUserService {
 		return result;
 	}
 
+	@Override
+	public List<DsUser> find(DsUser dsUser) {
+		return dsUserMapper.find(dsUser);
+	}
+
 }
