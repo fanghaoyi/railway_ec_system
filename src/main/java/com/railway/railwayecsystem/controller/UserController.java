@@ -1,6 +1,7 @@
 package com.railway.railwayecsystem.controller;
 
 
+import com.railway.railwayecsystem.dto.FunctionParent;
 import com.railway.railwayecsystem.model.DsUser;
 import com.railway.railwayecsystem.service.DsUserService;
 import com.railway.railwayecsystem.util.Config;
@@ -46,8 +47,8 @@ public class UserController {
 	@ResponseBody
 	@PostMapping("/function")
 	public String function(DsUser user){
-
-		return ResultDtoUtils.returnSuccess(user);
+		List<FunctionParent> function = dsUserService.findFunction(user);
+		return ResultDtoUtils.returnSuccess(function);
 	}
 
 

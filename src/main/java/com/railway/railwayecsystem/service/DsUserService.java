@@ -1,6 +1,7 @@
 package com.railway.railwayecsystem.service;
 
 import com.github.pagehelper.PageInfo;
+import com.railway.railwayecsystem.dto.FunctionParent;
 import com.railway.railwayecsystem.model.DsUser;
 
 import java.util.List;
@@ -17,5 +18,7 @@ public interface DsUserService {
 	PageInfo<DsUser> findAllUser(int pageNum, int pageSize);
 
 	List<DsUser> find(DsUser dsUser);
+
+	List<FunctionParent> findFunction(DsUser dsUser);
 
 }

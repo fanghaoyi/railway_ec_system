@@ -1,5 +1,6 @@
 package com.railway.railwayecsystem.mapper;
 
+import com.railway.railwayecsystem.dto.FunctionParent;
 import com.railway.railwayecsystem.model.DsUser;
 import org.springframework.stereotype.Repository;
 
@@ -58,4 +59,6 @@ public interface DsUserMapper {
 	List<DsUser> selectUsers();
 
 	List<DsUser> find(DsUser dsUser);
+
+	List<FunctionParent> findFunction(DsUser dsUser);
 }

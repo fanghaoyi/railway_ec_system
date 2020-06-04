@@ -346,4 +346,12 @@
             </if>
         </where>
     </select>
+
+
+    <select id="findFunction" resultType="com.railway.railwayecsystem.dto.FunctionParent">
+        SELECT dfp.name parent_name,dfp.url parent_url,dfc.name,dfc.url FROM ds_function dfp
+        LEFT JOIN ds_user_function duf ON dfp.id=duf.function_id
+        LEFT JOIN ds_function dfc ON dfp.id=dfc.parent_id
+        WHERE duf.user_id=#{id,jdbcType=DECIMAL}
+    </select>
 </mapper>

@@ -2,6 +2,7 @@ package com.railway.railwayecsystem.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.railway.railwayecsystem.dto.FunctionParent;
 import com.railway.railwayecsystem.mapper.DsUserMapper;
 import com.railway.railwayecsystem.model.DsUser;
 import com.railway.railwayecsystem.service.DsUserService;
@@ -44,6 +45,11 @@ public class DsUserServiceImpl implements DsUserService {
 	@Override
 	public List<DsUser> find(DsUser dsUser) {
 		return dsUserMapper.find(dsUser);
+	}
+
+	@Override
+	public List<FunctionParent> findFunction(DsUser dsUser) {
+		return dsUserMapper.findFunction(dsUser);
 	}
 
 }
